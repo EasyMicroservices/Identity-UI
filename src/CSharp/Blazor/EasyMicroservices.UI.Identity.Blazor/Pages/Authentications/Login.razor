@@ -1,0 +1,29 @@
+﻿@page "/Login"
+@using EasyMicroservices.UI.Identity.ViewModels.Authentications
+@using MudBlazor
+@using global::Identity.GeneratedServices;
+@inject LoginViewModel viewModel;
+
+<MudStack>
+    <MudPaper Class="pa-4">
+        <MudStack Spacing="4">
+            
+        </MudStack>
+    </MudPaper>
+</MudStack>
+
+@code {
+    public LoginViewModel ViewModel
+    {
+        get
+        {
+            return viewModel;
+        }
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        viewModel.BindPropertyChanged(StateHasChanged);
+        return base.OnInitializedAsync();
+    }
+}
