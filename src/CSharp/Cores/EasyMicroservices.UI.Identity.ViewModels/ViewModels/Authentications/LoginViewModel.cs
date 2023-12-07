@@ -13,6 +13,8 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             Clear();
         }
 
+        public Action<string> OnSuccess { get; set; }
+
         public TaskRelayCommand LoginCommand { get; set; }
 
         readonly AuthenticationClient _authenticationClient;
@@ -50,6 +52,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 });
             }, (LoginWithTokenResponseContract result) =>
             {
+                OnSuccess(result.Token);
                 return Task.CompletedTask;
             });
         }

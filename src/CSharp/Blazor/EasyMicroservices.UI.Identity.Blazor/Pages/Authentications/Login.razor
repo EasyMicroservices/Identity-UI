@@ -6,8 +6,25 @@
 
 <MudStack>
     <MudPaper Class="pa-4">
-        <MudStack Spacing="4">
-            
+        <MudStack Spacing="5">
+            <MudStack Spacing="4">
+                <MudTextField @bind-Value="viewModel.UserName" Label="UserName" Variant="Variant.Text"></MudTextField>
+                <MudTextField @bind-Value="viewModel.Password" Label="Password" Variant="Variant.Text" InputType="InputType.Password"></MudTextField>
+            </MudStack>
+            <MudStack Spacing="4" Row="true">
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" OnClick="() => viewModel.LoginCommand.Execute(null)" Color="Color.Primary">
+                    @if (viewModel.IsBusy)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Login</MudText>
+                    }
+                </MudButton>
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">Register</MudButton>
+            </MudStack>
         </MudStack>
     </MudPaper>
 </MudStack>
