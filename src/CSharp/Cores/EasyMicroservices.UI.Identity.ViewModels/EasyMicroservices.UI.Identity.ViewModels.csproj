@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <Authors>EasyMicroservices</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.0.1</Version>
+    <Description>Identity view model.</Description>
+    <Copyright>EasyMicroservices@gmail.com</Copyright>
+    <PackageTags>mvvm,viewmodel,viewmodels,modelviewviewmodel,ui,core,auth,authentication,identity</PackageTags>
+    <PackageProjectUrl>https://github.com/EasyMicroservices/Identity-UI</PackageProjectUrl>
+    <LangVersion>latest</LangVersion>
+    <DocumentationFile>.\bin\$(Configuration)\$(TargetFramework)\EasyMicroservices.UI.Identity.ViewModels.xml</DocumentationFile>
+    <RootNamespace>EasyMicroservices.UI.Identity</RootNamespace>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Clients" Version="0.0.0.5" />
+    <PackageReference Include="EasyMicroservices.UI.Cores.Mvvm" Version="0.0.0.7" />
+  </ItemGroup>
+
+</Project>
