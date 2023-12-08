@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EasyMicroservices.UI.Identity.Maui.Design.Views.LoginView"
+             xmlns:helpers="clr-namespace:EasyMicroservices.UI.Identity.Helpers;assembly=EasyMicroservices.UI.Identity.ViewModels">
+    <ContentView.Resources>
+        <helpers:ViewModelLocator x:Key="ViewModelLocator"/>
+    </ContentView.Resources>
+    <ContentView.BindingContext>
+        <Binding Source="{StaticResource ViewModelLocator}" Path="LoginViewModel"/>
+    </ContentView.BindingContext>
+    <Border BackgroundColor="{DynamicResource Lighten5Color}"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Padding="20,50"
+        StrokeShape="RoundRectangle 5"
+        Stroke="{DynamicResource Lighten4Color}">
+        <VerticalStackLayout Spacing="2" VerticalOptions="Center" HorizontalOptions="Center"  WidthRequest="250">
+            <Label Text="Username:" />
+            <Entry Text="{Binding UserName}" IsEnabled="{Binding IsNotBusy}"/>
+            <Label Text="Password:" />
+            <Entry Text="{Binding Password}" IsPassword="True" IsEnabled="{Binding IsNotBusy}"/>
+            <Grid Margin="0,10,0,0" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding LoginCommand}" Text="Login" IsVisible="{Binding IsNotBusy}"/>
+                <ActivityIndicator IsRunning="True" IsVisible="{Binding IsBusy}"/>
+                <Button Text="Cancel" IsEnabled="False" Grid.Column="1"/>
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>
