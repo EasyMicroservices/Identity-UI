@@ -11,6 +11,10 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
             Clear();
+            OnBusyChanged = (b) =>
+            {
+                OnPropertyChanged(nameof(IsNotBusy));
+            };
         }
 
         public Action<string> OnSuccess { get; set; }
@@ -38,6 +42,14 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             {
                 _Password = value;
                 OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public bool IsNotBusy
+        {
+            get
+            {
+                return !IsBusy;
             }
         }
 

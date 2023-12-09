@@ -1,0 +1,18 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:EasyMicroservices.UI.Identity.Maui.TestUI"
+             xmlns:colorStyles="clr-namespace:EasyMicroservices.UI.MauiKits.MaterialUI.Resources.Colors;assembly=EasyMicroservices.UI.MauiKits.MaterialUI"
+             xmlns:controlStyles="clr-namespace:EasyMicroservices.UI.MauiKits.MaterialUI.Resources.Styles;assembly=EasyMicroservices.UI.MauiKits.MaterialUI"
+             x:Class="EasyMicroservices.UI.Identity.Maui.TestUI.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <colorStyles:BlueColorStyle/>
+                <controlStyles:ButtonStyle/>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
