@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Authors>EasyMicroservices</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.1</Version>
+    <Version>0.0.0.2</Version>
     <Description>Identity view model.</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>mvvm,viewmodel,viewmodels,modelviewviewmodel,ui,core,auth,authentication,identity</PackageTags>
@@ -19,8 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Clients" Version="0.0.0.5" />
-    <PackageReference Include="EasyMicroservices.UI.Cores.Mvvm" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.FileManager" Version="0.0.0.3" />
+    <PackageReference Include="EasyMicroservices.IdentityMicroservice.Clients" Version="0.0.0.6" />
+    <PackageReference Include="EasyMicroservices.UI.Cores.Mvvm" Version="0.0.0.13" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
