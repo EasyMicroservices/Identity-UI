@@ -26,7 +26,7 @@
                             <MudText>@viewModel.GetLanguage("Login")</MudText>
                         }
                     </MudButton>
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">Register</MudButton>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">@viewModel.GetLanguage("Register")</MudButton>
                 </MudStack>
             </MudStack>
         </MudPaper>
@@ -49,7 +49,7 @@
             if (isLogin)
                 Snackbar.Add(viewModel.GetLanguage("LoginSuccess"), Severity.Success);
             else
-                Snackbar.Add(viewModel.GetLanguage("LoginFail"), Severity.Success);
+                Snackbar.Add(viewModel.GetLanguage("LoginFail"), Severity.Error);
         };
         viewModel.BindPropertyChanged(StateHasChanged);
         return base.OnInitializedAsync();

@@ -70,6 +70,12 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             });
         }
 
+        public override Task DisplayServerError(ServiceContracts.ErrorContract errorContract)
+        {
+            OnLogin?.Invoke(false);
+            return base.DisplayServerError(errorContract);
+        }
+
         public async Task Load()
         {
             try
