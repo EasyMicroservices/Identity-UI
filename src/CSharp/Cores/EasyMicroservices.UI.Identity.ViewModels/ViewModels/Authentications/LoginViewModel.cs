@@ -1,4 +1,5 @@
-﻿using EasyMicroservices.UI.Cores;
+﻿using EasyMicroservices.ServiceContracts;
+using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
 using EasyMicroservices.UI.Identity.Models;
 using Identity.GeneratedServices;
@@ -50,30 +51,20 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 
         public async Task Login()
         {
-            await ExecuteApi<LoginWithTokenResponseContract>(async () =>
+            var loginResult = await  _authenticationClient.LoginAsync(new UserSummaryContract()
             {
-                return await _authenticationClient.LoginAsync(new UserSummaryContract()
-                {
-                    UserName = UserName,
-                    Password = Password,
-                    WhiteLabelKey = WhiteLabelKey
-                });
-            }, (result) =>
-            {
-                OnGetToken?.Invoke(result.Result.Token);
-                OnLogin?.Invoke(true);
-                return Task.CompletedTask;
-            }, (err) =>
-            {
-                OnLogin?.Invoke(false);
-                return Task.CompletedTask;
-            });
+                UserName = UserName,
+                Password = Password,
+                WhiteLabelKey = WhiteLabelKey
+            }).AsCheckedResult(x => x.Result);
+            OnGetToken?.Invoke(loginResult.Token);
+            OnLogin?.Invoke(true);
         }
 
-        public override Task DisplayServerError(ServiceContracts.ErrorContract errorContract)
+        public override Task OnServerError(ServiceContracts.ErrorContract errorContract)
         {
             OnLogin?.Invoke(false);
-            return base.DisplayServerError(errorContract);
+            return base.OnServerError(errorContract);
         }
 
         public async Task Load()
