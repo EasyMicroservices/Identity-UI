@@ -1,20 +1,23 @@
 ﻿using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
+using EasyMicroservices.UI.Identity.Models;
 using Identity.GeneratedServices;
+using System.Net.Http.Json;
 
 namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : ApiBaseViewModel
     {
+        public static string CurrentDomain { get; set; }
+        public static string WhiteLabelKey { get; set; }
+        public static Action<string> OnGetToken { get; set; }
+
         public LoginViewModel(AuthenticationClient authenticationClient)
         {
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
             Clear();
-            OnBusyChanged = (b) =>
-            {
-                OnPropertyChanged(nameof(IsNotBusy));
-            };
+            _ = Load();
         }
 
         public Action<string> OnSuccess { get; set; }
@@ -45,39 +48,36 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             }
         }
 
-        public bool IsNotBusy
-        {
-            get
-            {
-                return !IsBusy;
-            }
-        }
-
         public async Task Login()
         {
-            await ExecuteApi(async () =>
+            await ExecuteApi<LoginWithTokenResponseContract>(async () =>
             {
                 return await _authenticationClient.LoginAsync(new UserSummaryContract()
                 {
                     UserName = UserName,
-                    Password = Password
+                    Password = Password,
+                    WhiteLabelKey = WhiteLabelKey
                 });
-            }, (LoginWithTokenResponseContract result) =>
+            }, (result) =>
             {
-                OnSuccess(result.Token);
+                OnSuccess(result.Result.Token);
+                OnGetToken(result.Result.Token);
                 return Task.CompletedTask;
             });
         }
 
-
-        public override Task OnError(Exception exception)
+        public async Task Load()
         {
-            return base.OnError(exception);
-        }
-
-        public override Task DisplayFetchError(ServiceContracts.ErrorContract errorContract)
-        {
-            return base.DisplayFetchError(errorContract);
+            try
+            {
+                IsBusy = true;
+                var config = await new HttpClient().GetFromJsonAsync<ApplicationConfig>($"{CurrentDomain}/appsettings.json");
+                WhiteLabelKey = config.WhiteLabels.FirstOrDefault(x => x.Domain.Equals(new Uri(CurrentDomain).Authority, StringComparison.OrdinalIgnoreCase))?.Key;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public void Clear()

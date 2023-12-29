@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Authors>EasyMicroservices</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.1</Version>
+    <Version>0.0.0.2</Version>
     <Description>Identity UI compoents.</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>component,microcomponent,ui,core,auth,authentication,identity</PackageTags>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MudBlazor" Version="6.11.1" />
+    <PackageReference Include="MudBlazor" Version="6.11.2" />
   </ItemGroup>
 
   <ItemGroup>
