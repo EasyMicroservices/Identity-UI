@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <Authors>EasyMicroservices</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.2</Version>
+    <IsPackable>true</IsPackable>
+    <Version>0.0.0.1</Version>
     <Description>Identity view model.</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>mvvm,viewmodel,viewmodels,modelviewviewmodel,ui,core,auth,authentication,identity</PackageTags>
