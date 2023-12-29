@@ -1,33 +1,37 @@
 ﻿@page "/Login"
+@using EasyMicroservices.UI.Cores
 @using EasyMicroservices.UI.Identity.ViewModels.Authentications
 @using MudBlazor
 @using global::Identity.GeneratedServices;
 @inject LoginViewModel viewModel;
+@inject ISnackbar Snackbar
 
-<MudStack>
-    <MudPaper Class="pa-4">
-        <MudStack Spacing="5">
-            <MudStack Spacing="4">
-                <MudTextField @bind-Value="viewModel.UserName" Label="UserName" Variant="Variant.Text"></MudTextField>
-                <MudTextField @bind-Value="viewModel.Password" Label="Password" Variant="Variant.Text" InputType="InputType.Password"></MudTextField>
+<MudRTLProvider RightToLeft="BaseViewModel.IsRightToLeft">
+    <MudStack>
+        <MudPaper Class="pa-4">
+            <MudStack Spacing="5">
+                <MudStack Spacing="4">
+                    <MudTextField @bind-Value="viewModel.UserName" Label="@viewModel.GetLanguage("UserName")" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="viewModel.Password" Label="@viewModel.GetLanguage("Password")" Variant="Variant.Text" InputType="InputType.Password"></MudTextField>
+                </MudStack>
+                <MudStack Spacing="4" Row="true">
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" Disabled="viewModel.IsBusy" OnClick="(arg) => viewModel.LoginCommand.Execute(null)">
+                        @if (viewModel.IsBusy)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">@viewModel.GetLanguage("Processing")</MudText>
+                        }
+                        else
+                        {
+                            <MudText>@viewModel.GetLanguage("Login")</MudText>
+                        }
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">Register</MudButton>
+                </MudStack>
             </MudStack>
-            <MudStack Spacing="4" Row="true">
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" OnClick="() => viewModel.LoginCommand.Execute(null)" Color="Color.Primary">
-                    @if (viewModel.IsBusy)
-                    {
-                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                        <MudText Class="ms-2">Processing</MudText>
-                    }
-                    else
-                    {
-                        <MudText>Login</MudText>
-                    }
-                </MudButton>
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">Register</MudButton>
-            </MudStack>
-        </MudStack>
-    </MudPaper>
-</MudStack>
+        </MudPaper>
+    </MudStack>
+</MudRTLProvider>
 
 @code {
     public LoginViewModel ViewModel
@@ -40,6 +44,13 @@
 
     protected override Task OnInitializedAsync()
     {
+        ViewModel.OnLogin = (isLogin) =>
+        {
+            if (isLogin)
+                Snackbar.Add(viewModel.GetLanguage("LoginSuccess"), Severity.Success);
+            else
+                Snackbar.Add(viewModel.GetLanguage("LoginFail"), Severity.Success);
+        };
         viewModel.BindPropertyChanged(StateHasChanged);
         return base.OnInitializedAsync();
     }

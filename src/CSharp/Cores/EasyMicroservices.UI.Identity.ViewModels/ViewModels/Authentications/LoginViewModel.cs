@@ -20,7 +20,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             _ = Load();
         }
 
-        public Action<string> OnSuccess { get; set; }
+        public Action<bool> OnLogin { get; set; }
 
         public TaskRelayCommand LoginCommand { get; set; }
 
@@ -60,8 +60,12 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 });
             }, (result) =>
             {
-                OnSuccess(result.Result.Token);
-                OnGetToken(result.Result.Token);
+                OnGetToken?.Invoke(result.Result.Token);
+                OnLogin?.Invoke(true);
+                return Task.CompletedTask;
+            }, (err) =>
+            {
+                OnLogin?.Invoke(false);
                 return Task.CompletedTask;
             });
         }
