@@ -39,6 +39,7 @@ jobs:
           dotnet test ./src/CSharp/Cores/EasyMicroservices.UI.Identity.Core.sln --no-build --verbosity normal
       - name: Create the package
         run: |
+          dotnet pack ./src/CSharp/Maui/EasyMicroservices.UI.Identity.Maui.sln --output nupkgs
           dotnet pack ./src/CSharp/Blazor/EasyMicroservices.UI.Identity.Blazor.sln --output nupkgs
           dotnet pack ./src/CSharp/Cores/EasyMicroservices.UI.Identity.Core.sln --output nupkgs
       - name: Publish the package to NuGet.org
