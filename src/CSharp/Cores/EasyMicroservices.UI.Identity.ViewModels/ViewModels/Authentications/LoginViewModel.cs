@@ -67,7 +67,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             return base.OnServerError(errorContract);
         }
 
-        public async Task Load()
+        public virtual async Task Load()
         {
             try
             {
