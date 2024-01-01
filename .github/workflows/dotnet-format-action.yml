@@ -16,25 +16,32 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
+      - name: Install .NET MAUI workload
+        run: dotnet workload install maui
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+            distribution: 'adopt'
+            java-version: '11'
       - name: Run dotnet format
         id: format
         uses: jfversluis/dotnet-format@v1.0.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           action: "fix"
-          workspace: "./src/CSharp/EasyMicroservices.UI.Identity.Blazor.sln"
+          workspace: "./src/CSharp/Cores/EasyMicroservices.UI.Identity.Core.sln"
       - name: Run dotnet format
         id: format
         uses: jfversluis/dotnet-format@v1.0.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           action: "fix"
-          workspace: "./src/CSharp/EasyMicroservices.UI.Identity.Core.sln"
+          workspace: "./src/CSharp/Cores/EasyMicroservices.UI.Identity.Core.sln"
       - name: Test
         run:  |
-          dotnet test ./src/CSharp/EasyMicroservices.UI.Identity.Blazor.sln -f net6.0
-          dotnet test ./src/CSharp/EasyMicroservices.UI.Identity.Core.sln -f net7.0
-          dotnet test ./src/CSharp/EasyMicroservices.UI.Identity.Core.sln -f net8.0
+          dotnet test ./src/CSharp/Maui/EasyMicroservices.UI.Identity.Maui.sln -f net8.0
+          dotnet test ./src/CSharp/Blazor/EasyMicroservices.UI.Identity.Blazor.sln -f net6.0
+          dotnet test ./src/CSharp/Cores/EasyMicroservices.UI.Identity.Core.sln -f net7.0
       - name: Commit files
         if: steps.format.outputs.has-changes == 'true'
         uses: EndBug/add-and-commit@v4.1.0
