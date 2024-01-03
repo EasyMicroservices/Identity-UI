@@ -13,13 +13,15 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
     {
         public static string CurrentDomain { get; set; }
         public static string WhiteLabelKey { get; set; }
-        public static Action<string> OnGetToken { get; set; }
+        public static Func<string,Task> OnGetToken { get; set; }
 
         public LoginViewModel(AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
         {
             _securityProvider = securityProvider;
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
+            RegisterCommand = new TaskRelayCommand(this, Register);
+            
             Clear();
             _ = Load();
         }
@@ -27,6 +29,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public Action<bool> OnLogin { get; set; }
 
         public TaskRelayCommand LoginCommand { get; set; }
+        public TaskRelayCommand RegisterCommand { get; set; }
 
         readonly AuthenticationClient _authenticationClient;
         readonly ISecurityProvider _securityProvider;
@@ -82,6 +85,11 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             {
                 IsBusy = false;
             }
+        }
+
+        public virtual Task Register()
+        {
+            return Task.CompletedTask;
         }
 
         public void Clear()

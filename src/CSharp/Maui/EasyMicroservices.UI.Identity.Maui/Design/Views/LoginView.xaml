@@ -35,7 +35,7 @@
                 <Button Command="{Binding LoginCommand}" hlp:Language.Key="Login" IsVisible="{Binding IsNotBusy}"/>
                 <ActivityIndicator IsRunning="True" IsVisible="{Binding IsBusy}"/>
                 <Button hlp:Language.Key="Cancel" IsEnabled="False" Grid.Column="1"/>
-                <Button hlp:Language.Key="Register" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <Button hlp:Language.Key="Register" IsEnabled="{Binding IsNotBusy}" Grid.Row="1" Grid.ColumnSpan="2"/>
             </Grid>
         </VerticalStackLayout>
     </Border>
