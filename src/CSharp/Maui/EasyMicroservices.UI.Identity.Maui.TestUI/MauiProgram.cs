@@ -24,6 +24,7 @@ public static class MauiProgram
         builder.Services.AddScoped(sp => new HttpClient());
         builder.Services.AddScoped(sp => new AuthenticationClient("http://localhost:2007", sp.GetService<HttpClient>()));
         builder.Services.AddScoped<LoginViewModel>();
+        builder.Services.AddScoped<RegisterViewModel>();
 
 #if DEBUG
         builder.Logging.AddDebug();
