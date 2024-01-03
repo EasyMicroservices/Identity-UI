@@ -59,9 +59,9 @@ public class RegisterViewModel : PageBaseViewModel
     public virtual async Task<MessageContract<global::Identity.GeneratedServices.RegisterResponseContract>> Register()
     {
         if (UserName.IsNullOrEmpty() || UserName.Length < 3)
-            return (FailedReasonType.ValidationsError, "UsernameValidationErrorMessage");
+            return (FailedReasonType.ValidationsError, "Username_Validation_ErrorMessage");
         else if (Password.IsNullOrEmpty() || Password.Length < 7)
-            return (FailedReasonType.ValidationsError, "PasswordValidationErrorMessage");
+            return (FailedReasonType.ValidationsError, "Password_Validation_ErrorMessage");
         else if (Password != ConfirmPassword)
             return (FailedReasonType.ValidationsError, "Password_Not_Match");
         else
