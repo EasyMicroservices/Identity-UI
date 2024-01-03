@@ -15,8 +15,9 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public static string WhiteLabelKey { get; set; }
         public static Func<string, Task> OnGetToken { get; set; }
 
-        public LoginViewModel(AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
+        public LoginViewModel(AuthenticationClient authenticationClient, HttpClient httpClient, ISecurityProvider securityProvider)
         {
+            _httpClient = httpClient;
             _securityProvider = securityProvider;
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
@@ -26,12 +27,13 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             _ = Load();
         }
 
-        public Action<bool, string> OnLogin { get; set; }
+        public Func<bool, string, Task> OnLoginFunc { get; set; }
 
         public TaskRelayCommand LoginCommand { get; set; }
         public TaskRelayCommand RegisterCommand { get; set; }
 
         readonly AuthenticationClient _authenticationClient;
+        readonly HttpClient _httpClient;
         readonly ISecurityProvider _securityProvider;
         string _UserName;
         public string UserName
@@ -63,6 +65,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 await DisplayError(GetLanguage("Password_Validation_ErrorMessage"));
             else
             {
+                _httpClient.DefaultRequestHeaders.Authorization = null;
                 var loginResult = await _authenticationClient.LoginAsync(new UserSummaryContract()
                 {
                     UserName = UserName,
@@ -70,14 +73,20 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                     WhiteLabelKey = WhiteLabelKey
                 }).AsCheckedResult(x => x.Result);
                 OnGetToken?.Invoke(loginResult.Token);
-                OnLogin?.Invoke(true, loginResult.Token);
+                await OnLoggedIn(true, loginResult.Token);
             }
         }
 
-        public override Task OnServerError(ServiceContracts.ErrorContract errorContract)
+        public virtual async Task OnLoggedIn(bool isLogin, string token)
         {
-            OnLogin?.Invoke(false, null);
-            return base.OnServerError(errorContract);
+            if (OnLoginFunc != null)
+                await OnLoginFunc(isLogin, token);
+        }
+
+        public override async Task OnServerError(ServiceContracts.ErrorContract errorContract)
+        {
+            await OnLoggedIn(false, null);
+            await base.OnServerError(errorContract);
         }
 
         public virtual async Task Load()
