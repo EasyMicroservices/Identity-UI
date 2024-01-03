@@ -3,5 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:EasyMicroservices.UI.Identity.Maui.Design.Views;assembly=EasyMicroservices.UI.Identity.Maui"
              x:Class="EasyMicroservices.UI.Identity.Maui.TestUI.MainPage">
-    <views:LoginView/>
+    <VerticalStackLayout>
+        <views:LoginView/>
+        <views:RegisterView/>
+    </VerticalStackLayout>
 </ContentPage>
