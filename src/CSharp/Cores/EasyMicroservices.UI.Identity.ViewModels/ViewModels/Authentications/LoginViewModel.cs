@@ -1,4 +1,6 @@
-﻿using EasyMicroservices.ServiceContracts;
+﻿using EasyMicroservices.Security;
+using EasyMicroservices.Security.Interfaces;
+using EasyMicroservices.ServiceContracts;
 using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
 using EasyMicroservices.UI.Identity.Models;
@@ -13,8 +15,9 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public static string WhiteLabelKey { get; set; }
         public static Action<string> OnGetToken { get; set; }
 
-        public LoginViewModel(AuthenticationClient authenticationClient)
+        public LoginViewModel(AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
         {
+            _securityProvider = securityProvider;
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
             Clear();
@@ -26,7 +29,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public TaskRelayCommand LoginCommand { get; set; }
 
         readonly AuthenticationClient _authenticationClient;
-
+        readonly ISecurityProvider _securityProvider;
         string _UserName;
         public string UserName
         {
@@ -54,7 +57,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             var loginResult = await  _authenticationClient.LoginAsync(new UserSummaryContract()
             {
                 UserName = UserName,
-                Password = Password,
+                Password = _securityProvider.ComputeHexString(Password),
                 WhiteLabelKey = WhiteLabelKey
             }).AsCheckedResult(x => x.Result);
             OnGetToken?.Invoke(loginResult.Token);

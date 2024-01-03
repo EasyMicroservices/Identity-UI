@@ -1,4 +1,5 @@
-﻿using EasyMicroservices.ServiceContracts;
+﻿using EasyMicroservices.Security;
+using EasyMicroservices.ServiceContracts;
 using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
 
@@ -6,8 +7,9 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications;
 
 public class RegisterViewModel : ApiBaseViewModel
 {
-    public RegisterViewModel(global::Identity.GeneratedServices.AuthenticationClient authenticationClient)
+    public RegisterViewModel(global::Identity.GeneratedServices.AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
     {
+        _securityProvider = securityProvider;
         _authenticationClient = authenticationClient;
         RegisterCommand = new TaskRelayCommand(this, Register);
         CancelCommand = new TaskRelayCommand(this, Cancel);
@@ -18,6 +20,7 @@ public class RegisterViewModel : ApiBaseViewModel
     public TaskRelayCommand CancelCommand { get; set; }
 
     readonly global::Identity.GeneratedServices.AuthenticationClient _authenticationClient;
+    readonly ISecurityProvider _securityProvider;
 
     string _UserName;
     public string UserName
@@ -63,7 +66,7 @@ public class RegisterViewModel : ApiBaseViewModel
         var loginResult = await _authenticationClient.RegisterAsync(new()
         {
             UserName = UserName,
-            Password = Password,
+            Password = _securityProvider.ComputeHexString(Password),
             WhiteLabelKey = LoginViewModel.WhiteLabelKey
         }).AsCheckedResult(x => x.Result);
         return loginResult;

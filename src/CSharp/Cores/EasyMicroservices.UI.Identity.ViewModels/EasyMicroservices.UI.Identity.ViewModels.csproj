@@ -21,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="EasyMicroservices.FileManager" Version="*" />
     <PackageReference Include="EasyMicroservices.IdentityMicroservice.Clients" Version="*" />
+    <PackageReference Include="EasyMicroservices.Security" Version="0.0.0.3" />
     <PackageReference Include="EasyMicroservices.UI.Cores.Mvvm" Version="0.0.0.18" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>

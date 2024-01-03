@@ -1,4 +1,6 @@
 ﻿using EasyMicroservices.Domain.Contracts.Common;
+using EasyMicroservices.Security;
+using EasyMicroservices.Security.Providers.HashProviders;
 using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Identity.Helpers;
 using EasyMicroservices.UI.Identity.ViewModels.Authentications;
@@ -23,6 +25,7 @@ public static class MauiProgram
             });
         builder.Services.AddScoped(sp => new HttpClient());
         builder.Services.AddScoped(sp => new AuthenticationClient("http://localhost:2007", sp.GetService<HttpClient>()));
+        builder.Services.AddScoped<ISecurityProvider, SHA256HashProvider>();
         builder.Services.AddScoped<LoginViewModel>();
         builder.Services.AddScoped<RegisterViewModel>();
 
