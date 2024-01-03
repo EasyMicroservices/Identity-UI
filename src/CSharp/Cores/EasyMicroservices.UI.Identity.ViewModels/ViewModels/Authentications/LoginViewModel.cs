@@ -1,19 +1,19 @@
 ﻿using EasyMicroservices.Security;
-using EasyMicroservices.Security.Interfaces;
 using EasyMicroservices.ServiceContracts;
 using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
 using EasyMicroservices.UI.Identity.Models;
 using Identity.GeneratedServices;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 {
-    public class LoginViewModel : ApiBaseViewModel
+    public class LoginViewModel : PageBaseViewModel
     {
         public static string CurrentDomain { get; set; }
         public static string WhiteLabelKey { get; set; }
-        public static Func<string,Task> OnGetToken { get; set; }
+        public static Func<string, Task> OnGetToken { get; set; }
 
         public LoginViewModel(AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
         {
@@ -21,7 +21,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             _authenticationClient = authenticationClient;
             LoginCommand = new TaskRelayCommand(this, Login);
             RegisterCommand = new TaskRelayCommand(this, Register);
-            
+
             Clear();
             _ = Load();
         }
@@ -57,14 +57,21 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 
         public async Task Login()
         {
-            var loginResult = await  _authenticationClient.LoginAsync(new UserSummaryContract()
+            if (UserName.IsNullOrEmpty() || UserName.Length < 3)
+                await DisplayError(GetLanguage("UsernameValidationErrorMessage"));
+            else if (Password.IsNullOrEmpty() || Password.Length < 7)
+                await DisplayError(GetLanguage("PasswordValidationErrorMessage"));
+            else
             {
-                UserName = UserName,
-                Password = _securityProvider.ComputeHexString(Password),
-                WhiteLabelKey = WhiteLabelKey
-            }).AsCheckedResult(x => x.Result);
-            OnGetToken?.Invoke(loginResult.Token);
-            OnLogin?.Invoke(true);
+                var loginResult = await _authenticationClient.LoginAsync(new UserSummaryContract()
+                {
+                    UserName = UserName,
+                    Password = _securityProvider.ComputeHexString(Password),
+                    WhiteLabelKey = WhiteLabelKey
+                }).AsCheckedResult(x => x.Result);
+                OnGetToken?.Invoke(loginResult.Token);
+                OnLogin?.Invoke(true);
+            }
         }
 
         public override Task OnServerError(ServiceContracts.ErrorContract errorContract)
