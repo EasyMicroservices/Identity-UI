@@ -11,6 +11,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 {
     public class LoginViewModel : PageBaseViewModel
     {
+        public static string PasswordSalt { get; set; } = "31927acb-9489-46c4-aba9-7f4c7c1d82e1";
         public static string CurrentDomain { get; set; }
         public static string WhiteLabelKey { get; set; }
         public static Func<string, Task> OnGetToken { get; set; }
@@ -57,6 +58,11 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             }
         }
 
+        public virtual string ComputePassword()
+        {
+            return _securityProvider.ComputeHexString(PasswordSalt + UserName + Password);
+        }
+
         public async Task Login()
         {
             if (UserName.IsNullOrEmpty() || UserName.Length < 3)
@@ -69,7 +75,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 var loginResult = await _authenticationClient.LoginAsync(new UserSummaryContract()
                 {
                     UserName = UserName,
-                    Password = _securityProvider.ComputeHexString(Password),
+                    Password = ComputePassword(),
                     WhiteLabelKey = WhiteLabelKey
                 }).AsCheckedResult(x => x.Result);
                 OnGetToken?.Invoke(loginResult.Token);
