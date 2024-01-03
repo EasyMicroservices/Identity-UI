@@ -33,7 +33,7 @@
     </MudStack>
 </MudRTLProvider>
 
-@code {
+    @code {
     public LoginViewModel ViewModel
     {
         get
@@ -44,12 +44,13 @@
 
     protected override Task OnInitializedAsync()
     {
-        ViewModel.OnLogin = (isLogin) =>
+        ViewModel.OnLoginFunc = (isLogin, token) =>
         {
             if (isLogin)
                 Snackbar.Add(viewModel.GetLanguage("LoginSuccess"), Severity.Success);
             else
                 Snackbar.Add(viewModel.GetLanguage("LoginFail"), Severity.Error);
+            return Task.CompletedTask;
         };
         viewModel.BindPropertyChanged(StateHasChanged);
         return base.OnInitializedAsync();
