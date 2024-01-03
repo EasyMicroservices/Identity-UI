@@ -56,6 +56,11 @@ public class RegisterViewModel : PageBaseViewModel
         }
     }
 
+    public virtual string ComputePassword()
+    {
+        return _securityProvider.ComputeHexString(LoginViewModel.PasswordSalt + UserName + Password);
+    }
+
     public virtual async Task<MessageContract<global::Identity.GeneratedServices.RegisterResponseContract>> Register()
     {
         if (UserName.IsNullOrEmpty() || UserName.Length < 3)
@@ -69,7 +74,7 @@ public class RegisterViewModel : PageBaseViewModel
             var loginResult = await _authenticationClient.RegisterAsync(new()
             {
                 UserName = UserName,
-                Password = _securityProvider.ComputeHexString(Password),
+                Password = ComputePassword(),
                 WhiteLabelKey = LoginViewModel.WhiteLabelKey
             }).AsCheckedResult(x => x.Result);
             return loginResult;
