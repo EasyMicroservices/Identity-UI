@@ -26,7 +26,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
             _ = Load();
         }
 
-        public Action<bool> OnLogin { get; set; }
+        public Action<bool, string> OnLogin { get; set; }
 
         public TaskRelayCommand LoginCommand { get; set; }
         public TaskRelayCommand RegisterCommand { get; set; }
@@ -58,9 +58,9 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public async Task Login()
         {
             if (UserName.IsNullOrEmpty() || UserName.Length < 3)
-                await DisplayError(GetLanguage("UsernameValidationErrorMessage"));
+                await DisplayError(GetLanguage("Username_Validation_ErrorMessage"));
             else if (Password.IsNullOrEmpty() || Password.Length < 7)
-                await DisplayError(GetLanguage("PasswordValidationErrorMessage"));
+                await DisplayError(GetLanguage("Password_Validation_ErrorMessage"));
             else
             {
                 var loginResult = await _authenticationClient.LoginAsync(new UserSummaryContract()
@@ -70,13 +70,13 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                     WhiteLabelKey = WhiteLabelKey
                 }).AsCheckedResult(x => x.Result);
                 OnGetToken?.Invoke(loginResult.Token);
-                OnLogin?.Invoke(true);
+                OnLogin?.Invoke(true, loginResult.Token);
             }
         }
 
         public override Task OnServerError(ServiceContracts.ErrorContract errorContract)
         {
-            OnLogin?.Invoke(false);
+            OnLogin?.Invoke(false, null);
             return base.OnServerError(errorContract);
         }
 
