@@ -2,10 +2,11 @@
 using EasyMicroservices.ServiceContracts;
 using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Commands;
+using System.Text;
 
 namespace EasyMicroservices.UI.Identity.ViewModels.Authentications;
 
-public class RegisterViewModel : ApiBaseViewModel
+public class RegisterViewModel : PageBaseViewModel
 {
     public RegisterViewModel(global::Identity.GeneratedServices.AuthenticationClient authenticationClient, ISecurityProvider securityProvider)
     {
@@ -57,19 +58,22 @@ public class RegisterViewModel : ApiBaseViewModel
 
     public virtual async Task<MessageContract<global::Identity.GeneratedServices.RegisterResponseContract>> Register()
     {
-        if (Password != ConfirmPassword)
+        if (UserName.IsNullOrEmpty() || UserName.Length < 3)
+            return (FailedReasonType.ValidationsError, "UsernameValidationErrorMessage");
+        else if (Password.IsNullOrEmpty() || Password.Length < 7)
+            return (FailedReasonType.ValidationsError, "PasswordValidationErrorMessage");
+        else if (Password != ConfirmPassword)
+            return (FailedReasonType.ValidationsError, "Password_Not_Match");
+        else
         {
-            await DisplayError(GetLanguage("Password_Not_Match"));
-            return FailedReasonType.ValidationsError;
+            var loginResult = await _authenticationClient.RegisterAsync(new()
+            {
+                UserName = UserName,
+                Password = _securityProvider.ComputeHexString(Password),
+                WhiteLabelKey = LoginViewModel.WhiteLabelKey
+            }).AsCheckedResult(x => x.Result);
+            return loginResult;
         }
-
-        var loginResult = await _authenticationClient.RegisterAsync(new()
-        {
-            UserName = UserName,
-            Password = _securityProvider.ComputeHexString(Password),
-            WhiteLabelKey = LoginViewModel.WhiteLabelKey
-        }).AsCheckedResult(x => x.Result);
-        return loginResult;
     }
 
     public void Clear()
