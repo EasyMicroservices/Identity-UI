@@ -2,32 +2,40 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EasyMicroservices.UI.Identity.Maui.Design.Views.LoginView"
+             xmlns:hlp="clr-namespace:EasyMicroservices.UI.Identity.Maui.Helpers"
+             xmlns:conv="clr-namespace:EasyMicroservices.UI.Identity.Maui.Converter"
              xmlns:helpers="clr-namespace:EasyMicroservices.UI.Identity.Helpers;assembly=EasyMicroservices.UI.Identity.ViewModels">
     <ContentView.Resources>
         <helpers:ViewModelLocator x:Key="ViewModelLocator"/>
+        <conv:RightToLeftConverter x:Key="RightToLeftConverter"/> 
     </ContentView.Resources>
     <ContentView.BindingContext>
         <Binding Source="{StaticResource ViewModelLocator}" Path="LoginViewModel"/>
     </ContentView.BindingContext>
-    <Border BackgroundColor="{DynamicResource Lighten5Color}"
+    <Border BackgroundColor="{DynamicResource Lighten5Color}" FlowDirection="{Binding Converter={StaticResource RightToLeftConverter}}"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         Padding="20,50"
         StrokeShape="RoundRectangle 5"
         Stroke="{DynamicResource Lighten4Color}">
         <VerticalStackLayout Spacing="2" VerticalOptions="Center" HorizontalOptions="Center"  WidthRequest="250">
-            <Label Text="Username:" />
+            <Label hlp:Language.Key="Username_Title"/>
             <Entry Text="{Binding UserName}" IsEnabled="{Binding IsNotBusy}"/>
-            <Label Text="Password:" />
+            <Label hlp:Language.Key="Password_Title" />
             <Entry Text="{Binding Password}" IsPassword="True" IsEnabled="{Binding IsNotBusy}"/>
-            <Grid Margin="0,10,0,0" ColumnSpacing="10">
+            <Grid Margin="0,10,0,0" ColumnSpacing="10" RowSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Command="{Binding LoginCommand}" Text="Login" IsVisible="{Binding IsNotBusy}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Command="{Binding LoginCommand}" hlp:Language.Key="Login" IsVisible="{Binding IsNotBusy}"/>
                 <ActivityIndicator IsRunning="True" IsVisible="{Binding IsBusy}"/>
-                <Button Text="Cancel" IsEnabled="False" Grid.Column="1"/>
+                <Button hlp:Language.Key="Cancel" IsEnabled="False" Grid.Column="1"/>
+                <Button hlp:Language.Key="Register" Grid.Row="1" Grid.ColumnSpan="2"/>
             </Grid>
         </VerticalStackLayout>
     </Border>
