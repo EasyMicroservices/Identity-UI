@@ -71,11 +71,13 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 await DisplayError(GetLanguage("Password_Validation_ErrorMessage"));
             else
             {
+                var computedPassword = ComputePassword();
+                Console.WriteLine($"ComputedPassword: {computedPassword}");
                 _httpClient.DefaultRequestHeaders.Authorization = null;
                 var loginResult = await _authenticationClient.LoginAsync(new UserSummaryContract()
                 {
                     UserName = UserName,
-                    Password = ComputePassword(),
+                    Password = computedPassword,
                     WhiteLabelKey = WhiteLabelKey
                 }).AsCheckedResult(x => x.Result);
                 OnGetToken?.Invoke(loginResult.Token);
