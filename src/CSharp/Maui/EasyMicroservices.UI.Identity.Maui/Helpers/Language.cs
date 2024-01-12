@@ -22,7 +22,7 @@ public class Language
     static ApiBaseViewModel ViewModel { get; set; } = new ApiBaseViewModel();
     static void PropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        var value = ViewModel.GetLanguage((string)newValue);
+        var value = ViewModel.GetInnerTranslatedByKey((string)newValue);
         if (bindable is Button button)
             button.Text = value + button.Text;
         else if (bindable is Label label)
