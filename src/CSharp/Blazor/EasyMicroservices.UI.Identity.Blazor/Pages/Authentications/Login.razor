@@ -11,22 +11,22 @@
         <MudPaper Class="pa-4">
             <MudStack Spacing="5">
                 <MudStack Spacing="4">
-                    <MudTextField @bind-Value="viewModel.UserName" Label="@viewModel.GetLanguage("UserName")" Variant="Variant.Text"></MudTextField>
-                    <MudTextField @bind-Value="viewModel.Password" Label="@viewModel.GetLanguage("Password")" Variant="Variant.Text" InputType="InputType.Password"></MudTextField>
+                    <MudTextField @bind-Value="viewModel.UserName" Label="@viewModel.GetInnerTranslatedByKey("UserName")" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="viewModel.Password" Label="@viewModel.GetInnerTranslatedByKey("Password")" Variant="Variant.Text" InputType="InputType.Password"></MudTextField>
                 </MudStack>
                 <MudStack Spacing="4" Row="true">
                     <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Login" Color="Color.Info" Disabled="viewModel.IsBusy" OnClick="(arg) => viewModel.LoginCommand.Execute(null)">
                         @if (viewModel.IsBusy)
                         {
                             <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                            <MudText Class="ms-2">@viewModel.GetLanguage("Processing")</MudText>
+                            <MudText Class="ms-2">@viewModel.GetInnerTranslatedByKey("Processing")</MudText>
                         }
                         else
                         {
-                            <MudText>@viewModel.GetLanguage("Login")</MudText>
+                            <MudText>@viewModel.GetInnerTranslatedByKey("Login")</MudText>
                         }
                     </MudButton>
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">@viewModel.GetLanguage("Register")</MudButton>
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">@viewModel.GetInnerTranslatedByKey("Register")</MudButton>
                 </MudStack>
             </MudStack>
         </MudPaper>
@@ -47,9 +47,9 @@
         ViewModel.OnLoginFunc = (isLogin, token) =>
         {
             if (isLogin)
-                Snackbar.Add(viewModel.GetLanguage("LoginSuccess"), Severity.Success);
+                Snackbar.Add(viewModel.GetInnerTranslatedByKey("LoginSuccess"), Severity.Success);
             else
-                Snackbar.Add(viewModel.GetLanguage("LoginFail"), Severity.Error);
+                Snackbar.Add(viewModel.GetInnerTranslatedByKey("LoginFail"), Severity.Error);
             return Task.CompletedTask;
         };
         viewModel.BindPropertyChanged(StateHasChanged);
