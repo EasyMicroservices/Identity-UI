@@ -66,9 +66,9 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public async Task Login()
         {
             if (UserName.IsNullOrEmpty() || UserName.Length < 3)
-                await DisplayError(GetLanguage("Username_Validation_ErrorMessage"));
+                await DisplayError(GetTranslatedByKey("Username_Validation_ErrorMessage"));
             else if (Password.IsNullOrEmpty() || Password.Length < 7)
-                await DisplayError(GetLanguage("Password_Validation_ErrorMessage"));
+                await DisplayError(GetTranslatedByKey("Password_Validation_ErrorMessage"));
             else
             {
                 var computedPassword = ComputePassword();
