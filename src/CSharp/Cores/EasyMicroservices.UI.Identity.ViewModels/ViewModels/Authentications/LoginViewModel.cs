@@ -31,7 +31,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public Func<bool, string, Task> OnLoginFunc { get; set; }
 
 
-        public bool IsForgotPasswordAvailable { get; set; } = true;
+        public bool IsForgotPasswordAvailable { get; set; } = false;
         public TaskRelayCommand LoginCommand { get; set; }
         public TaskRelayCommand RegisterCommand { get; set; }
 
