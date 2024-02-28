@@ -5,6 +5,7 @@ using EasyMicroservices.FileManager.Providers.PathProviders;
 using EasyMicroservices.Security;
 using EasyMicroservices.Security.Providers.HashProviders;
 using EasyMicroservices.UI.Identity.Blazor.TestUI;
+using EasyMicroservices.UI.Identity.Blazor.TestUI.ViewModels;
 using EasyMicroservices.UI.Identity.Models;
 using EasyMicroservices.UI.Identity.ViewModels.Authentications;
 using Identity.GeneratedServices;
