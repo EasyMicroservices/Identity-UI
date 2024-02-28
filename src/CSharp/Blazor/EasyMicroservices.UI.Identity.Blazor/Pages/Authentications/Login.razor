@@ -28,7 +28,7 @@
                     </MudButton>
                     <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Person" Color="Color.Primary">@viewModel.GetInnerTranslatedByKey("Register")</MudButton>
                 </MudStack>
-                @if (viewModel.IsForgotPasswordAvailable)
+                @if (LoginViewModel.IsForgotPasswordAvailable)
                 {
                     <MudStack>
                         <MudLink dir="rtl" Color="Color.Info" OnClick="(arg) => viewModel.NavigateToForgotPasswordPage()">@viewModel.GetInnerTranslatedByKey("ForgotPassword")</MudLink>
