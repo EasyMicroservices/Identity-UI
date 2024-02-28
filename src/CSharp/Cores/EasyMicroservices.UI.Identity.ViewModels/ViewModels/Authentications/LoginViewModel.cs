@@ -30,6 +30,8 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
 
         public Func<bool, string, Task> OnLoginFunc { get; set; }
 
+
+        public bool IsForgotPasswordAvailable { get; set; } = true;
         public TaskRelayCommand LoginCommand { get; set; }
         public TaskRelayCommand RegisterCommand { get; set; }
 
@@ -83,6 +85,11 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
                 OnGetToken?.Invoke(loginResult.Token);
                 await OnLoggedIn(true, loginResult.Token);
             }
+        }
+
+        public virtual void NavigateToForgotPasswordPage()
+        {
+            throw new NotImplementedException();
         }
 
         public virtual async Task OnLoggedIn(bool isLogin, string token)

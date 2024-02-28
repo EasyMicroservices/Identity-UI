@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application-Layer", "Application-Layer", "{DCD4E3DA-9FCE-4E44-94EB-E76643EB7F00}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLogic-Layer", "BusinessLogic-Layer", "{3151CA0F-984F-43AD-BF34-C41BF1E1627F}"
+	ProjectSection(SolutionItems) = preProject
+		EasyMicroservices.UI.Identity.Blazor.TestUI\Program.cs = EasyMicroservices.UI.Identity.Blazor.TestUI\Program.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMicroservices.UI.Identity.ViewModels", "..\Cores\EasyMicroservices.UI.Identity.ViewModels\EasyMicroservices.UI.Identity.ViewModels.csproj", "{9211C76B-7C44-4429-BF41-2A379324873B}"
 EndProject
