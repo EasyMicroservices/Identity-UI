@@ -14,6 +14,7 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public static string PasswordSalt { get; set; } = "31927acb-9489-46c4-aba9-7f4c7c1d82e1";
         public static string CurrentDomain { get; set; }
         public static string WhiteLabelKey { get; set; }
+        public static bool IsForgotPasswordAvailable { get; set; } = false;
         public static Func<string, Task> OnGetToken { get; set; }
 
         public LoginViewModel(AuthenticationClient authenticationClient, HttpClient httpClient, ISecurityProvider securityProvider)
@@ -31,7 +32,6 @@ namespace EasyMicroservices.UI.Identity.ViewModels.Authentications
         public Func<bool, string, Task> OnLoginFunc { get; set; }
 
 
-        public bool IsForgotPasswordAvailable { get; set; } = false;
         public TaskRelayCommand LoginCommand { get; set; }
         public TaskRelayCommand RegisterCommand { get; set; }
 
